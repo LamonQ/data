@@ -1,0 +1,1405 @@
+/* 
+    Editor: fan
+    Time: 2020.07.27
+*/
+
+'use strict';
+
+new WOW().init();
+
+//置顶
+function goTop() {
+		$('html,body').animate({
+			'scrollTop': 0
+		}, 1000);
+	}
+// End
+var navtop = $(".headbox_nav").offset().top;
+$(window).scroll(function() {
+	if ($(window).scrollTop() >= navtop) {
+		
+		$(".headbox_nav").addClass("headbox2");
+		$(".headbox-section3").addClass("headmenu1");
+	} else {
+		$(".headbox_nav").removeClass("headbox2 headmenu1");
+		$(".headbox-section3").removeClass("headmenu1");
+		
+	}
+	if($(window).scrollTop() > 200){
+		$(".gotop").css("display","block");
+	}else{
+		$(".gotop").css("display","none");
+	}
+});
+var pl = /\s/g;
+var dat = new Date().toLocaleString().toString();
+var src1 = dat.search(pl);
+$(".partybox-section1 .cont .tit .data1 span").html(dat.substr(0,src1));
+function navFade() {
+	var i = $(window).scrollTop();
+	var obj = $(".headbox_nav");
+	$(window).scroll(function() {
+		if ($(this).scrollTop() > i && $(this).scrollTop() > 50) {
+			i = $(this).scrollTop();
+		} else {
+			i = $(this).scrollTop();
+		}
+	});
+}
+navFade();
+
+function showFile(e, ele) {
+
+	var fullFileName = e.target.value;
+
+	fullFileName = fullFileName.split('\\');
+	console.log(fullFileName[2]);
+	var fileName = fullFileName[fullFileName.length - 1];
+	$(ele).parents(".jut").find(".emale1").text("已选择：" + fileName);
+}
+/* 导航 */
+$(".headbox-section3 .lt .f_jut2 li").mouseover(function() {
+	$(".headbox-section3 .lt .f_jut1 li").removeClass("on");
+	$(".headbox-section3 .cent .jut").removeClass("active");
+	$(".headbox-section3 .gt .jut").removeClass("active");
+});
+/* 设置pc菜单高度 */
+var _vh = $(window).height();
+var head_height = $(".headbox_nav").height();
+$(".headbox-section3").css("height", (_vh - head_height) + "px");
+function headMenuShow(_index) {
+	/* pc菜单高度=窗口高度-导航高度 */
+	console.log(_index);
+	$(".serchbox").show(); //搜索显示
+	
+	$(".headbox-section3").slideDown(400); //pc菜单显示
+	
+	$(".headbox-section3 .lt .f_jut1 li").eq(_index).addClass("on").siblings().removeClass("on");
+
+	$(".headbox-section3 .cent .jut").eq(_index).addClass("active").siblings().removeClass("active");
+	$(".headbox-section3 .cent .jut.active .f_jut1 li").eq(0).addClass("on").siblings().removeClass("on");
+	if (_index > $(".headbox-section3 .gt .jut").length - 1) {
+		$(".headbox-section3 .gt .jut").removeClass("active");
+	} else {
+		$(".headbox-section3 .gt .jut").eq(_index).addClass("active").siblings().removeClass("active");
+		$(".headbox-section3 .gt .jut").eq(_index).find(".f_item").eq(0).addClass("on");
+	}
+	// $(".headbox-section3 .gt .jut").eq(_index).find(".f_item").eq(0).addClass("on");
+}
+
+function headMenuHide() {
+	$(".serchbox").hide();
+	$(".headbox-section3").slideUp(400);
+	$(".headbox-section3 .cent .jut.active li").removeClass("on");
+	$(".headbox-section3 .gt .jut.active .f_item").removeClass("on");
+	$(".headbox-section3 .lt .f_jut1 li").removeClass("on");
+}
+$(".headbox-section3 .bag,.headbox-section3 .bag2").click(function() {
+	headMenuHide();
+});
+$(".headbox-section2 .menu1 a").click(function() {
+	var _this = $(this);
+	var _index = _this.index();
+	// $(".serchbox").show(); //搜索显示
+	// $(".headbox-section3").slideDown(400); //pc菜单显示
+	// $(".headbox-section3 .cent .jut").eq(0).addClass("active").siblings().removeClass("active");
+	headMenuShow(_index);
+});
+$(".headbox-section2 .search").click(function() {
+	headMenuShow(0);
+});
+$(".headbox_nav > .basecont .gt .net").click(function(e) {
+	var e = e || event;
+	// headMenuShow(4);
+	$(".langebox").stop().slideToggle();
+	e.stopPropagation();
+	$(document).one("click",function(){
+		$(".headbox .langebox").slideUp();
+		e.stopPropagation();
+	})
+});
+$(".headbox .langebox").click(function(e){
+	var e = e || event;
+	e.stopPropagation();
+});
+var vw = $(window).width();
+if (vw > 991) {
+	$(".clox1").click(function() {
+		headMenuHide();
+		$(".headbox-section3 .basecont .gt .jut").removeClass("active");
+	});
+} else {
+	$(".clox1").click(function() {
+		$(this).parents(".serchbox").fadeOut();
+	});
+	$(".searchclick").click(function() {
+		$(".serchbox").fadeIn();
+	});
+}
+if ($(".headbox-section3 .basecont .lt .jut .f_jut1 li").length > $(".headbox-section3 .basecont .gt .jut").length) {
+	var sum1 = $(".headbox-section3 .basecont .lt .jut .f_jut1 li").length - $(".headbox-section3 .basecont .gt .jut").length;
+	var srcimg = $(".headbox-section3 .basecont .item .f_jut2 i img").eq(0).attr("src");
+	for (var ce = sum1; ce < (".headbox-section3 .basecont .lt .jut .f_jut1 li").length; ce++) {
+		var html = $('<img src="' + srcimg + '">');
+		$(".headbox-section3 .basecont .cent .jut").eq(ce).find("i").html(html);
+	};
+
+}
+$(".headbox-section3 .basecont .gt").click(function(){
+	headMenuHide();
+});
+$(".headbox-section3 .basecont .gt .jut").click(function(e){
+	var e = e || event;
+	e.stopPropagation();
+});
+/* pc端下拉显示 */
+$(".headbox-section3 .lt .f_jut1 li").mouseover(function() {
+	var _this = $(this);
+	var _index = _this.index();
+	var hdgtlength = $(".headbox-section3 .gt .jut").length;
+	var hdcentlenth = $(".headbox-section3 .cent .jut").length;
+	// if(_index==$(".headbox-section3 .lt .f_jut1 li").length){
+	// 	_index--;
+	// }
+	if (_index < hdcentlenth) {
+		$(".headbox-section3 .cent .jut").eq(_index).addClass("active").siblings().removeClass("active");
+		if($(".headbox-section3 .cent .jut").eq(_index).find(".f_jut1 li.on").length==0){
+			$(".headbox-section3 .cent .jut").eq(_index).find(".f_jut1 li").eq(0).addClass("on");
+		}
+		 var hocenind = $(".headbox-section3 .cent .jut").eq(_index).find(".f_jut1 li.on").index();
+		if (_index < hdgtlength) {
+			$(".headbox-section3 .gt .jut").eq(_index).addClass("active").siblings().removeClass("active");
+			$(".headbox-section3 .gt .jut").eq(_index).find(".f_item").eq(hocenind).addClass("on").siblings().removeClass("on");
+		}else{
+			$(".headbox-section3 .gt .jut").removeClass("active");
+		}
+	} else {
+		$(".headbox-section3 .cent .jut").removeClass("active");
+		$(".headbox-section3 .gt .jut").removeClass("active");
+	}
+	
+	
+	_this.addClass("on").siblings().removeClass("on");
+});
+$(".headbox-section3 .cent .jut .f_jut1 li").mouseover(function() {
+	var _this = $(this);
+	var _index = _this.index();
+	var _ac = _this.parent().data();
+	_this.addClass("on").siblings().removeClass("on");
+	$(".headbox-section3 .gt .active .f_item").eq(_index).addClass("on").siblings().removeClass("on");
+});
+$(".headbox-section3 .cent .jut .f_jut2 li").hover(function(){
+	var _this = $(this);
+	_this.addClass("on").siblings().removeClass("on");
+	_this.parents(".jut").find(".f_jut1 li").removeClass("on");
+	$(".headbox-section3 .gt .active .f_item").removeClass("on");
+},function(){
+	var _this = $(this);
+	_this.removeClass("on");
+});
+/* 移动端 */
+$(".menubut img").click(function() {
+	$(".headbox-section4").fadeIn();
+});
+// 移动端导航固定
+var tue1 = true; //判断点击次数
+var offTop; //窗口滚动距离顶部的距离
+$(".headbox-section2 .headbox_nav > .basecont .gt .menubut img").click(function(e) {
+	offTop = $(window).scrollTop();
+	$("body").addClass("f_fixed");
+	$("body").css("margin-top", -offTop + "px");
+	tue1 = false;
+});
+$(".wap-menuclose").click(function() {
+
+	$(".headbox-section4").fadeOut();
+	// $(".wap-menutitle").html("");
+	$(".wap-menuprev").data("prev","");
+	$(".wap-menuprev").css("visibility", "hidden");
+	$(".wap-navmain ul").removeClass();
+	$("body").removeClass("f_fixed");
+	$("body").css("margin-top", 0 + "px");
+	$(window).scrollTop(offTop);
+	tue1 = true;
+});
+/* 移动端下拉 */
+$(".wap-menuprev").attr("data-prev", "1");
+$(".wap-navmain ul li a i").click(function() {
+	var _this = $(this);
+	if (_this.parent().parent().children("ul").children("li").length > 0) {
+		$(".wap-menuprev").css("visibility","visible");
+		var _html = _this.parent().html();
+		var wapmedata = $(".wap-menuprev").data("prev");
+		_this.parent().parent().children("ul").addClass("wode"+wapmedata);
+		wapmedata++;
+		$(".wap-menuprev").data("prev",wapmedata);
+		$(".wap-menutitle").html(_html);
+		_this.parent().parent("li").addClass("on");
+		_this.parent().parent("li").siblings().removeClass("on");
+		_this.parent().parent().children("ul").addClass("hide1");
+		_this.parent().parent().children("ul").addClass("let1");
+		
+		return false;
+	}
+});
+// $(".wap-navmain ul li ul li a i").click(function() {
+// 	var _this = $(this);
+// 	if (_this.parent().parent().children("ul").children("li").length > 0) {
+// 		var _html = _this.parent().html();
+// 		$(".wap-menuprev").attr("data-prev","let2");
+// 		$(".wap-menutitle").html(_html);
+// 		_this.parent().parent().children("ul").addClass("let2");
+// 		return false;
+// 	}
+// });
+$(".wap-menuprev").click(function() {
+	var _this = $(this);
+	var prevData = _this.data("prev");
+	prevData--;
+	var die =prevData;
+	die-=2;
+	console.log(prevData,die,$(".wode"+die).children("li.on").children("a").html());
+	$(".wode"+prevData).removeClass("let1");
+	$(".wode"+prevData).removeClass(".wode"+prevData);
+	$(".wap-menuprev").data("prev",prevData);
+	$(".wap-menutitle").html($(".wode"+die).children("li.on").children("a").html());
+	if(prevData==1){
+		_this.css("visibility","hidden");
+		// visibility: hidden;
+		$(".wap-menutitle").html("");
+	}
+	if(die<=0){
+		// $(".wap-navmain>ul>li.on>a").html();
+		$(".wap-menutitle").html($(".wap-navmain>ul>li.on>a").html());
+	}
+	
+});
+
+
+
+
+
+
+/* End */
+
+
+
+
+/* Swiper轮播 */
+// var dongxi = true;
+// if(vw>991){
+// 	dongxi = false;
+// }
+var searnav = new Swiper('.searchcenter_nav', {
+	watchOverflow: true,
+	slidesPerView: "auto",
+	observer: true,
+	observeParents: true,
+});
+var ho1cont = new Swiper($(".home-section1 .jut"), {
+	// autoplay: false,
+	watchOverflow: true,
+	effect : 'fade',
+	observer: true,
+	// loop: true,
+	speed:900,
+	autoplay: {
+		delay: 4000,
+		stopOnLastSlide: false,
+		disableOnInteraction: false,
+	},
+	observeParents: true,
+	on: {
+		slideChangeTransitionStart: function() {
+			// alert(this.activeIndex);
+			// var shu = $(".home-section1 .swiper-slide-active").attr("data-swiper-slide-index");
+			$(".home-section1 .nav a").eq(this.activeIndex).addClass("on").siblings().removeClass("on");
+		},
+	},
+});
+//鼠标覆盖停止自动切换
+$(".home-section1 .jut").hover(
+	function(){
+		ho1cont.autoplay.stop();
+	},
+	function(){
+		ho1cont.autoplay.start();
+	}
+);
+//鼠标离开开始自动切换
+// ho1cont.el.onmouseout = function(){
+//   ho1cont.autoplay.start();
+// }
+$(".home-section1 .nav a").click(function() {
+	var _index = $(this).index();
+	$(this).addClass("on").siblings().removeClass("on");
+	ho1cont.slideTo(_index);
+});
+var ho2cont = new Swiper(".ho2-cont", {
+	watchOverflow: true,
+	slidesPerView: 3,
+	observer: true,
+	observeParents: true,
+})
+var ab1nav = new Swiper('.abnav1-nav', {
+	watchOverflow: true,
+	slidesPerView: "auto",
+	observer: true,
+	observeParents: true,
+	autoplay: {
+		delay: 3000,
+		stopOnLastSlide: false,
+		disableOnInteraction: false,
+	},
+});
+var ab3cont = new Swiper('.ab3-cont', {
+	watchOverflow: true,
+	slidesPerView: "auto",
+	observer: true,
+	observeParents: true,
+	autoplay: {
+		delay: 3000,
+		stopOnLastSlide: false,
+		disableOnInteraction: false,
+	},
+});
+var ab6cont = new Swiper($(".ab6-cont .swiper-container"), {
+	direction: 'vertical',
+	slidesPerView: 'auto',
+	freeMode: true,
+	observer: true,
+	observeParents: true,
+	scrollbar: {
+		el: '.ab5cro',
+	},
+	mousewheel: true,
+});
+var ab5nav = new Swiper($(".ab6-nav .swiper-container"), {
+	slidesPerView: 'auto',
+	observer: true,
+	watchOverflow: true,
+	observeParents: true,
+
+});
+var ab5cont = new Swiper(".ab5-cont", {
+	observer: true,
+	observeParents: true,
+	speed: 1000,
+	effect: 'fade',
+	noSwipingClass: 'text',
+	autoplay: {
+		delay: 5000,
+		stopOnLastSlide: false,
+		disableOnInteraction: false,
+	},
+	thumbs: {
+		swiper: ab5nav
+	},
+	on: {
+		slideChangeTransitionStart: function() {
+			// alert(this.activeIndex);
+			$(".ab6-nav .swiper-slide").eq(this.activeIndex).addClass("on").siblings().removeClass("on");
+		},
+	},
+});
+$(".ab5-cont").hover(
+	function(){
+		ab5cont.autoplay.stop();
+	},
+	function(){
+		ab5cont.autoplay.start();
+	}
+);
+// $(".ab6-nav .swiper-slide").mouseover(function(){
+// 	 var _index = $(this).index();
+// 	 $(this).addClass("on").siblings().removeClass("on");
+// 	 ab5cont.slideTo(_index);
+// });
+var news1cont = new Swiper(".news1-cont", {
+	slidesPerView: 'auto',
+	observer: true,
+	watchOverflow: true,
+	observeParents: true,
+	autoplay: {
+		delay: 3000,
+		stopOnLastSlide: false,
+		disableOnInteraction: false,
+	},
+	pagination: {
+		el: '.news1-pag',
+		clickable: true,
+	},
+});
+var join3cont = new Swiper(".join3-cont", {
+	slidesPerView: 2.21,
+	spaceBetween: 50,
+	observer: true,
+	loop: true,
+	watchOverflow: true,
+	speed: 900,
+	centeredSlides: true,
+	loopAdditionalSlides: 100,
+	observeParents: true,
+	navigation: {
+		nextEl: '.join3-next',
+		prevEl: '.join3-prev',
+	},
+	autoplay: {
+		delay: 5000,
+		stopOnLastSlide: false,
+		disableOnInteraction: false,
+	},
+	breakpoints: {
+		1440: {
+			slidesPerView: 1.92,
+			spaceBetween: 30,
+		},
+		1199: {
+			slidesPerView: 1.92,
+			spaceBetween: 20,
+		},
+		767: {
+			slidesPerView: 1.1,
+			spaceBetween: 20,
+		}
+	}
+});
+var con3hei = $(".co3cont1 .item").eq(0).height() * 2 + 5;
+$(".co3cont1").css("height", con3hei + "px");
+var con3cont = new Swiper(".contact3-cont", {
+	direction: 'vertical',
+	slidesPerView: 'auto',
+	freeMode: true,
+	observer: true,
+	observeParents: true,
+	scrollbar: {
+		el: ".co3cro",
+	},
+	mousewheel: true,
+});
+
+var pao3_nav1 = new Swiper('.pro3_nav', {
+	slidesPerView: "auto",
+	observer: true,
+	watchOverflow: true,
+	observeParents: true,
+});
+var pao3_cont1 = new Swiper('.pro3_cont', {
+	observer: true,
+	observeParents: true,
+	watchOverflow: true,
+	on: {
+		slideChangeTransitionStart: function() {
+			// alert(this.activeIndex);
+			$(".pro3_nav .swiper-slide").eq(this.activeIndex).addClass("on").siblings().removeClass("on");
+		},
+	},
+	thumbs: {
+		swiper: pao3_nav1
+	}
+});
+$(".pro3_nav .swiper-slide").click(function() {
+	$(this).addClass("on").siblings().removeClass("on");
+});
+/* End */
+
+/* 公司概况 */
+$(".clickvideo").click(function() {
+	$(this).parent().css("display", "none");
+	$(this).parents(".video1").find("video").trigger('play');
+});
+/* End */
+
+/* 社会招聘 */
+$(document).on('click', '.partyzhao .item .tit', function() {
+	var _this = $(this);
+	_this.parent().toggleClass("active");
+	_this.parent().siblings().removeClass("active")
+	_this.parent().find(".jut").stop().slideToggle().parent().siblings().find(".jut").stop().slideUp();
+});
+/* End */
+for (var oi = 0; oi < $(".c-nav2-wrap .c-nav2 .swiper-slide").length; oi++) {
+	if ($(".c-nav2-wrap .c-nav2 .swiper-slide").eq(oi).find("p").length == 0) {
+		$(".c-nav2-wrap .c-nav2 .swiper-slide").eq(oi).remove();
+	}
+}
+$(".sanclick").click(function(e) {
+	var e = e || event;
+	e.stopPropagation();
+	$(this).parents(".jut").hide();
+	$(this).parents(".item").removeClass("on");
+});
+$(".applicabox-section1 .item .jut").click(function(e){
+	var e = e || event;
+	e.stopPropagation();
+});
+/* 产品列表 */
+$(".applicabox-section1 .f_tit i").click(function(e) {
+	var _this = $(this);
+	var e = e||event;
+	e.stopPropagation();
+	_this.parents(".item").toggleClass("on");
+
+	if (_this.parents(".item").hasClass("on")) {
+		_this.parents(".item").children(".jut").stop().show();
+
+	} else {
+		_this.parents(".item").children(".jut").stop().hide();
+	}
+	return false;
+});
+$(".applicabox-section1").attr("data-src","1");
+$(".f_but_zhan").click(function(){
+	var _this=$(this).parents(".applicabox-section1");
+	var _app1=_this.data("src");
+	if(_app1==1){
+		_this.find(".item").addClass("on");
+		_this.find(".f_but_zhan span").html("Collapse subclass -");
+		_this.find(".item .jut").stop().show();
+		_this.data("src","2");
+	}else{
+		_this.find(".item").removeClass("on");
+		_this.find(".f_but_zhan span").html("Expand all subcategories +");
+		_this.find(".item .jut").stop().hide();
+		_this.data("src","1");
+	}
+	
+});
+$(".alerimg .bag").click(function() {
+	$(".alerimg").fadeOut();
+});
+$(".alerimg .down").click(function() {
+	$(".alerimg").fadeOut();
+});
+
+/* End */
+
+/* 关于我们 */
+if ($(".aboutbox-section1").length >= 1) {
+	var abtop1 = $(".aboutbox-section1").offset().top;
+	window.onscroll = function() {
+		var s = $(window).scrollTop();
+		if (s > abtop1 - 70) {
+			$(".aboutbox-section1").addClass("aboutbox-top");
+		} else {
+			$(".aboutbox-section1").removeClass("aboutbox-top");
+		}
+	};
+}
+/* End */
+/* 产品详情 */
+var f_wo = true; //第一个变红的active
+var f_on = true;  //第一个变红第一级
+function upfoMenu(_this) {
+	if (_this.parent().parent("li").length > 0) {
+		f_on=false;
+		_this.parent().css("display", "block");
+		_this.parent().parent("li").addClass("active");
+		if(f_wo){
+				// _this.parent().parent("li").children(".tit").css("color","#e60012");
+			_this.children(".tit").css("color","#e60012");
+			f_wo=false;
+		}
+		if(_this.children(".tit").find("i").length!=0){
+			if(_this.children(".tit").find("i").html()=="+"){
+				console.log("有加号");
+				_this.children(".tit").find("i").html("-");
+				_this.children(".tit").find("i").css({
+					"-webkit-transform": "rotate(0)",
+					"transform": "rotate(0)",
+					"font-size": "20px",
+					"font-weight": "500"
+				});
+			}
+		}
+		if(_this.parent().siblings(".tit").find("i").html()=="+"){
+			_this.parent().siblings(".tit").find("i").html("-");
+			
+			_this.parent().siblings(".tit").find("i").css({
+				"-webkit-transform": "rotate(0)",
+				"transform": "rotate(0)",
+				"font-size": "20px",
+				"font-weight": "500"
+			});
+			// upfoMenujian(_this.parent().parent().parent().siblings(".tit").find("i"));
+		}
+		upfoMenu(_this.parent().parent("li"));
+		
+	} else {
+		_this.addClass("on");
+		_this.children(".tit").css("font-weight","bold");
+		if(f_on){
+			_this.children(".tit").children("span").css("color","#e60012");
+		}
+	}
+}
+upfoMenu($(".f_ltnav_manu li.active"));
+
+
+
+$(".f_ltnav_manu li>.tit").each(function() {
+	var _this = $(this);
+	if (_this.parent().hasClass("active") || _this.parent().hasClass("on")) {
+		_this.parent().children("ul").css("display", "block");
+	}
+});
+$(".f_ltnav_manu li>.tit").each(function() {
+	var _this = $(this);
+	if (_this.children("i").length == 0 && _this.parent().children("ul").children("li").length > 0) {
+		_this.click(function() {
+			_this.parent().toggleClass("on");
+			_this.parent().toggleClass("active");
+			_this.parent().children("ul").stop().slideToggle();
+			return false;
+		});
+	}
+	if(_this.find("i").html()=="-"){
+		_this.find("i").css({
+			"-webkit-transform": "rotate(0)",
+			"transform": "rotate(0)",
+			"font-size": "20px",
+			"font-weight": "500"
+		});
+	}
+});
+
+$(".f_ltnav_manu li>.tit i").click(function() {
+	var _this = $(this);
+	if (_this.parent().parent().children("ul").children("li").length > 0) {
+		_this.parent().parent().toggleClass("on");
+		_this.parent().parent().toggleClass("active");
+		_this.parent().parent().children("ul").stop().slideToggle();
+		if (_this.html() == "+") {
+			_this.html("-");
+			_this.css({
+				"-webkit-transform": "rotate(0)",
+				"transform": "rotate(0)",
+				"font-size": "20px",
+				"font-weight": "500"
+			});
+		} else if (_this.html() == "-") {
+			_this.html("+");
+			_this.css({
+				"-webkit-transform": "rotate(0)",
+				"transform": "rotate(0)",
+				"font-size": "16px"
+			});
+		}
+		return false;
+	} else {
+		console.log("你没有下一级元素");
+	}
+});
+$(".f_ltnav_manu li>.tit span").click(function() {
+	var _this = $(this);
+	if(_this.parent().attr("href")=="" || _this.parent().attr("href")=="javascript:;"){
+		if (_this.parent().parent().children("ul").children("li").length > 0) {
+			_this.parent().parent().toggleClass("on");
+			_this.parent().parent().toggleClass("active");
+			_this.parent().parent().children("ul").stop().slideToggle();
+			if (_this.html() == "+") {
+				_this.html("-");
+				_this.css({
+					"-webkit-transform": "rotate(0)",
+					"transform": "rotate(0)",
+					"font-size": "20px",
+					"font-weight": "500"
+				});
+			} else if (_this.html() == "-") {
+				_this.html("+");
+				_this.css({
+					"-webkit-transform": "rotate(0)",
+					"transform": "rotate(0)",
+					"font-size": "16px"
+				});
+			}
+			// return false;
+		} else {
+			console.log("你没有下一级元素");
+		}
+	}
+	
+});
+/* End */
+
+/* 产品详情2 */
+$(".product_info-section2 .c-bottom-box table label").click(function() {
+	$(this).toggleClass("on");
+});
+/* End */
+
+
+/* 应用 && 产品 */
+var headvh = $(".headbox-section2").height() + 20;
+
+function apRtMenu() {
+	if ($(".applicabox-section1").length > 0) {
+		// var pro=true;
+		$(window).scroll(function() {
+			var s = $(window).scrollTop();
+			$(".applicabox-section1").each(function() {
+				var _this = $(this);
+				var _index = _this.index();
+				var apptop = _this.offset().top;
+				if (s > apptop - headvh) {
+					$(".f_nav1 li").eq(_index).addClass("on").siblings().removeClass("on");
+				}
+			});
+		});
+		var fna = true;
+		var ap = true;
+		$(".f_nav1 li").click(function(e) {
+			var e = e || event;
+			var id1 = $(this).find("a").html();
+			var _index = 0;
+			$(".weizhi2").each(function(){
+				if(id1 == $(this).attr("id")){
+					_index = $(this).parents(".applicabox-section1").index();
+					return false;
+				}
+			});
+			e.stopPropagation();
+			console.log(_index);
+			var _app1 =$(".applicabox-section1").eq(_index).data("src");
+			$(".applicabox-section1").eq(_index).siblings().find(".item").removeClass("on");
+			$(".applicabox-section1").eq(_index).siblings().find(".item .jut").stop().hide();
+			$(".applicabox-section1").eq(_index).siblings().find(".f_but_zhan span").html("Expand all subcategories +");
+			$(".applicabox-section1").eq(_index).siblings().data("src","1");
+			// var aphead = $("#"+id1).parents(".applicabox-section1").offset().top - headvh + 20;
+			var aphead = $(".applicabox-section1").eq(_index).offset().top-70;
+			setTimeout(function(){
+				$(".applicabox-section1").eq(_index).find(".item").addClass("on");
+				$(".applicabox-section1").eq(_index).find(".item .jut").stop().show();
+				$(".applicabox-section1").eq(_index).find(".f_but_zhan span").html("Collapse subclass -");
+				$(".applicabox-section1").eq(_index).data("src","2");
+				$('html,body').animate({
+					'scrollTop': aphead
+				}, 1000);
+			},100);
+			
+			
+		});
+	}
+}
+
+if(window.location.href.indexOf("#") != -1){
+	var str = decodeURIComponent(window.location.href.substr(window.location.href.lastIndexOf("#")+1));
+	console.log(str);
+	$(".applicabox-section1").each(function(){
+		var _this = $(this);
+		var text1 = _this.find(".weizhi2").attr("id");
+		
+		if(text1 == str){
+			_this.find(".item").addClass("on");
+			_this.find(".item").find(".jut").stop().show();
+			_this.find(".f_but_zhan span").html("Collapse subclass -");
+			_this.data("src","2");
+			setTimeout(function(){
+					 $('html,body').animate({
+					 	'scrollTop': _this.find(".weizhi2").offset().top
+					 }, 0);
+			},600);
+		}
+		_this.find(".weizhi3").each(function(){
+			var text2 = $(this).attr("id");
+			if(text2 == str){
+				_this.find(".item").addClass("on");
+				_this.find(".item").find(".jut").stop().show();
+				_this.find(".f_but_zhan span").html("Collapse subclass -");
+				_this.data("src","2");
+				setTimeout(function(){
+						 $('html,body').animate({
+						 	'scrollTop': _this.find(".weizhi2").offset().top
+						 }, 0);
+				},600);
+			}
+		});
+		
+	});
+	
+	// $(str).parents(".applicabox-section1").find(".item").addClass("on");
+	// $(str).parents(".applicabox-section1").find(".item").find(".jut").stop().show();
+	// $(str).parents(".applicabox-section1").find(".f_but_zhan span").html("折叠子类 -");
+	// $(str).parents(".applicabox-section1").data("src","2");
+}
+
+
+
+function moildApRtMenu() {
+	$(".f_nav1 li").click(function() {
+		var _index = $(this).index();
+		var aphead = $(".applicabox-section1").eq(_index).offset().top - headvh + 20;
+		var _thisText = $(this).find("a").text();
+		$(".f_nav1 li").eq(_index).addClass("on").siblings().removeClass("on");
+		$(this).parent().slideUp();
+		$(this).parents(".c-nav1-wrap").find(".c-text-box p").html(_thisText);
+		$('html,body').animate({
+			'scrollTop': aphead
+		}, 1000);
+	});
+}
+if (vw > 992) {
+	apRtMenu();
+} else {
+	moildApRtMenu();
+}
+if($(".f_jutzhong").length!=0){
+	$(".f_jutzhong").each(function(){
+		var _this = $(this);
+		var _index = _this.index();
+		if(_this.find("tbody>tr").length<=3){
+			_this.parents(".f_table_mo").find(".c-more").css("display","none");
+		}else{
+			_this.parents(".f_table_mo").attr("data-src","1");
+			var hei=_this.find("thead>tr").height(); 
+			for(var h=0;h<3;h++){
+				hei+=_this.find("tbody>tr").eq(h).height();
+			}
+			console.log(hei);
+			_this.css({
+				"height":hei+"px",
+				"overflow": "hidden"
+			});
+		}
+		
+	});
+}
+$(".f_table_mo .c-more .c-more-btn").click(function(){
+	var _this = $(this);
+	var hei =  _this.parents(".f_table_mo").find("table").height();
+	var _src = _this.parents(".f_table_mo").data("src");
+	if(_src==1){
+		_this.parents(".f_table_mo").find(".f_jutzhong").css("height",hei+"px");
+		_this.find("span").html("stop");
+		_this.parents(".f_table_mo").data("src","2");
+		
+	}else{
+		hei=_this.parents(".f_table_mo").find("thead>tr").height();
+		for(var h=0;h<3;h++){
+			hei+=_this.parents(".f_table_mo").find("tbody>tr").eq(h).height();
+		}
+		_this.parents(".f_table_mo").find(".f_jutzhong").css("height",hei+"px");
+		_this.find("span").html("More");
+		_this.parents(".f_table_mo").data("src","1");
+	}
+});
+
+/* End */
+/* 产品比较 */
+
+var down1 = {
+	"dess": {
+		"0": {
+			"title": "1",
+			"zhazha": "2"
+		},
+		"1": {
+			"title": "2",
+			"zhazha": "2"
+		},
+		"3": {
+			"title": "3",
+			"zhazha": "3"
+		}
+	},
+	"des": {
+		"1": "title",
+		"2": "zhazha"
+	}
+};
+
+function getJsonLength(jsonData) {
+	var length = 0;
+	for (var ever in jsonData) {
+		length++;
+	}
+	return length;
+}
+$(".f_down_alt").click(function() {
+	var _this = $(this);
+	var tbody1 = [];
+	$(".f_comp").fadeIn();
+
+	console.log(JSON.stringify(tbody1));
+});
+$(".f_comp .bag").click(function() {
+	$(".f_comp").fadeOut();
+});
+$(".f_comp .down").click(function() {
+	$(".f_comp").fadeOut();
+});
+
+
+// if($(window).scrollTop()>100){
+// 	$(".c-nav1-wrap .c-nav1").css("width","");
+// }
+/* End */
+
+
+/* 导航防止滚动条滚动 */
+ var firefox = navigator.userAgent.indexOf('Firefox') != -1;
+	function MouseWheel(e) {
+	///对img按下鼠标滚路，阻止视窗滚动
+			e = e || window.event;
+			if (e.stopPropagation) e.stopPropagation();
+			else e.cancelBubble = true;
+			if (e.preventDefault) e.preventDefault();
+			else e.returnValue = false;
+
+			//其他代码
+	}
+	window.onload = function () {
+			var img = $(".headbox-section3").get(0);
+			firefox ? img.addEventListener('DOMMouseScroll', MouseWheel, false) : (img.onmousewheel = MouseWheel);
+	}
+/* End */
+				
+/* 搜索框 */
+$(".f_form_search input[type=text]").click(function(e){
+	var _this = $(this);
+	var e = e || event;
+	
+	if(_this.val()==""){
+		_this.parent().find(".font1").hide();
+	}
+	_this.parents(".f_form_search").find(".f_cont").show();
+	// e.preventDefault();
+	e.stopPropagation();
+	$(document).one("click",function(){
+		_this.parents(".f_form_search").find(".f_cont").hide();
+		e.preventDefault();
+		e.stopPropagation();
+		
+	});
+	
+});
+$(document).on("keyup",".f_form_search1 input[type=text]",function(){
+	var e = e || event;
+	e.preventDefault();
+	if(e.keyCode == 13){
+		e.stopPropagation();
+		// $(this).parents("form").submit();
+		$("#search").trigger("click");
+		console.log(100);
+		return false;
+	}
+});
+if($(".f_form_search input[type=text]").val()!=""){
+	$(".f_form_search .font1").hide();
+}
+$(".f_form_search input[type=text]").blur(function(){
+	var _this = $(this);
+	if(_this.val()==""){
+		_this.parent().find(".font1").show();
+	}
+	// _this.parents(".f_form_search").find(".f_cont").hide();
+});
+$(document).on('click','.f_form_search .f_cont .f_item1 a',function(){
+	var _this = $(this);
+	var _html1 = _this.html();
+	var e = e || event;
+	_this.parents(".f_form_search").find("input[type=text]").val(_html1);
+	_this.parents(".f_form_search").find(".font1").hide();
+	_this.parents(".f_form_search").find(".f_cont").hide();
+	e.stopPropagation();
+});
+$(".headbox-section2 .serchbox .jut form button").click(function(e){
+		
+		if($(".f_form_search input[type=text]").val()==""){
+			$(this).parent().find(".font1").show();
+		}
+		setTimeout(function(){
+			$(this).parent().find("input[type=text]").val("");
+		},100);
+	// e.preventDefault();
+});
+/* End */
+
+/* 正则去除SAR-ADC	 */
+// $(".f_tabel thead tr th").each(function(){
+// 	var _this = $(this);
+// 	var _index = _this.index();
+// 	var thtml = _this.html();
+	
+// 	if(thtml!=""){
+// 		var wode = thtml.replace("SAR-ADC-"," ");
+// 		_this.html(wode);
+// 	}
+// });
+// $(".f_tabel thead tr th").each(function(){
+// 	var _this = $(this);
+// 	var _index = _this.index();
+// 	var thtml = _this.html();
+	
+// 	if(thtml!=""){
+// 		var wode = thtml.replace("DOC-"," ");
+// 		_this.html(wode);
+// 	}
+// });
+// $(".f_tabel thead tr th").each(function(){
+// 	var _this = $(this);
+// 	var _index = _this.index();
+// 	var thtml = _this.html();
+	
+// 	if(thtml!=""){
+// 		var wode = thtml.replace("OC-"," ");
+// 		_this.html(wode);
+// 	}
+// });
+
+
+// function strRemove(cls,attr){ //cls是去除的目标节点 attr是去除的字符串的数组
+// 	cls.each(function(){
+// 		var _this = $(this);
+// 		var thtml = _this.html();
+// 		for(var ar=0;ar<attr.length;ar++){
+// 			var wode = thtml.replace(attr[ar]," ");
+// 			_this.html(wode);
+// 		}
+// 	});
+// }
+// strRemove($(".f_tabel thead tr th"),["SAR-ADC-","OC-","DAC-"]);
+
+/* 应用产品 */
+// $(".applicabox-section1 .item").each(function(){
+// 	var _this = $(this);
+// 	var x1 = _this.index();
+// 	$(".applicabox-section1 .item").eq(x1).find(".ju .list").each(function(){
+		
+// 	});
+// 	if($(".applicabox-section1 .item").eq(x1).find(".jut .list .f_list_jut a").length!=0){
+// 		$(".applicabox-section1 .item").eq(x1).find(".jut .list .f_list_tit").append("<i class='icon iconfont'>+</i>");
+// 	}
+// });
+$(".applicabox-section1 .item .jut .list").each(function(){
+	var _this = $(this);
+	var x1 = _this.index();
+	if(_this.find(".f_list_tit").length==0){
+		_this.find(".f_list_jut").css("display","block");
+	}
+	if(_this.find(".f_list_jut a").length!=0){
+		_this.find(".f_list_tit").append("<i class='icon iconfont' data-zh='1'><img src='/Public/Home/default/images/inner/dier1.png'></i>");
+		_this.find(".f_list_tit i").click(function(){
+			_this.find(".f_list_jut").toggle();
+			_this.siblings().find(".f_list_jut").hide();
+			_this.siblings().find(".f_list_tit i").html("<img src='/Public/Home/default/images/inner/dier1.png'>");
+			_this.siblings().find(".f_list_tit i").data("zh","1");
+			_this.siblings().find(".f_list_tit i").css("font-size","16px");
+			var zh = _this.find(".f_list_tit i").data("zh");
+			if(zh==1){
+				_this.find(".f_list_tit i").html("<img src='/Public/Home/default/images/inner/dier1-1.png'>");
+				_this.find(".f_list_tit i").css({
+					"font-size":"22px",
+					"font-weight":"500",
+					"line-height": "1"
+				});
+				_this.find(".f_list_tit i").data("zh","2");
+			}else{
+				_this.find(".f_list_tit i").html("<img src='/Public/Home/default/images/inner/dier1.png'>");
+				_this.find(".f_list_tit i").css("font-size","16px");
+				_this.find(".f_list_tit i").data("zh","1");
+			}
+		});
+	}
+});
+/* End */
+
+/* 解决方案收缩 */
+if($(".product_info3-section2 .jut .f_item").length>3){
+	$(".product_info3-section2").attr("data-wo","1");
+	var pr3he = $(".product_info3-section2 .f_item").eq(0).height()+20;
+	var pr3juthe = $(".product_info3-section2 .jut").eq(0).height()-20;
+	$(".product_info3-section2 .f_cont").css({
+		"overflow": "hidden",
+		"height": pr3he+"px"
+	});
+	
+	$(".product_info3-section2 .more1").click(function(){
+		var _this = $(this);
+		if(_this.parent().data("wo")=="1"){
+			$(".product_info3-section2 .f_cont").css({
+				"overflow": "hidden",
+				"height": pr3juthe+"px"
+			});
+			_this.find("span").html("stop");
+			$(".product_info3-section2").data("wo","2");
+		}else{
+			$(".product_info3-section2 .f_cont").css({
+				"overflow": "hidden",
+				"height": pr3he+"px"
+			});
+			_this.find("span").html("More");
+			$(".product_info3-section2").data("wo","1");
+		}
+		_this.html();
+	});
+}else{
+	$(".product_info3-section2 .more1").css("display","none");
+}
+
+/* End */
+
+
+
+
+/* 历史搜索功能 */
+
+$(function(){
+		update_history();
+		// 绑定回车事件
+		$(document).keydown(function(event){
+				if(event.keyCode==13){
+						$("#search").click();
+				}
+		});
+
+		// 搜索点击事件
+		$("#search").click(function(){
+				var keywords = $("#keywords").val();
+				search_history(keywords); //添加到缓存
+				update_history(); //更新搜索历史
+		})
+
+		// 清空搜索历史
+		$("#empty").click(function(){
+				mystorage.remove('keywords');
+				$("#history").html(" ");
+		})
+
+})
+
+/**
+ * [update_history 更新搜索历史]
+ * @return {[type]} [description]
+ */
+function update_history(){
+		console.log(mystorage.get("keywords"));
+		var history_keywords = mystorage.get("keywords");
+		if (history_keywords) {
+				var html = "";
+				$.each(history_keywords,function(i,v){
+						html += "<a class='btn-default' href='javascript:;' role='button'>"+v+"</a>"
+				})
+				$("#history").html(html);
+		};
+		if($("#history a").length==0){
+			$("#history").parents(".f_cont_list").css("display","none");
+		}
+}
+
+/**
+ * [empty_value 点击历史按钮同步到输入框]
+ * @param  {[type]} keyword [description]
+ * @return {[type]}         [description]
+ */
+function empty_value(keyword) {
+		$("#keywords").val(keyword);
+		console.log(keyword);
+}
+
+/**
+ * [search_history //搜索历史函数存储]
+ * @param  {[type]} value [搜索词]
+ * @return {[type]}       [description]
+ */
+function search_history(value){
+		var data = mystorage.get("keywords");
+		if (!data) {
+				var data = []; //定义一个空数组
+		}else if(data.length === 2){ //搜索历史数量
+				data.shift();  //删除数组第一个元素有
+		}else{
+
+		};
+		if (value) {  //判断搜索词是否为空
+				if (data.indexOf(value)<0) {  //判断搜索词是否存在数组中
+						data.push(value);    //搜索词添加到数组中
+						mystorage.set("keywords",data);  //存储到本地化存储中
+				};
+		};
+}
+
+/**
+ * [mystorage 存储localstorage时候最好是封装一个自己的键值，在这个值里存储自己的内容对象，封装一个方法针对自己对象进行操作。避免冲突也会在开发中更方便。]
+ * @param  {String} ){                 var ms [description]
+ * @return {[type]}     [description]
+				console.log(mystorage.set('tqtest','tqtestcontent'));//存储
+				console.log(mystorage.set('aa','123'));//存储
+				console.log(mystorage.set('tqtest1','tqtestcontent1'));//存储
+				console.log(mystorage.set('tqtest1','newtqtestcontent1'));//修改
+				console.log(mystorage.get('tqtest'));//读取
+				console.log(mystorage.remove('tqtest'));//删除
+				mystorage.clear();//整体清除
+ */
+var mystorage = (function mystorage(){
+		var ms = "mystorage";
+		var storage=window.localStorage;
+		if(!window.localStorage){
+				alert("浏览器不支持localstorage");
+				return false;
+		}
+		var set = function(key,value){
+				//存储
+				var mydata = storage.getItem(ms);
+				if(!mydata){
+						this.init();
+						mydata = storage.getItem(ms);
+				}
+				mydata = JSON.parse(mydata);
+				mydata.data[key] = value;
+				storage.setItem(ms,JSON.stringify(mydata));
+				return mydata.data;
+		};
+		var get = function(key){
+				//读取
+				var mydata = storage.getItem(ms);
+				if(!mydata){
+						return false;
+				}
+				mydata = JSON.parse(mydata);
+				return mydata.data[key];
+		};
+		var remove = function(key){
+				//读取
+				var mydata = storage.getItem(ms);
+				if(!mydata){
+						return false;
+				}
+				mydata = JSON.parse(mydata);
+				delete mydata.data[key];
+				storage.setItem(ms,JSON.stringify(mydata));
+				return mydata.data;
+		};
+		var clear = function(){
+				//清除对象
+				storage.removeItem(ms);
+		};
+		var init = function(){
+			storage.setItem(ms,'{"data":{}}');
+		};
+		return {
+				set : set,
+				get : get,
+				remove : remove,
+				init : init,
+				clear : clear
+		};
+})();
+
+
+// $(document).on("keydown", "button[type=submit]", function(e) {
+// 	var e = e || event;
+// 	if(e.keyCode == 13){
+// 		e.preventDefault();
+// 		return false;
+// 	}
+    
+// });
+$(document).on("keydown","body,html",function(){
+	var e = e || event;
+	if(e.keyCode == 13){
+		e.preventDefault();
+		return false;
+	}
+});
+// $(".aboutbanner .f_wode input").focus(function(){
+// 	$(document).one("keydown","body,html",function(){
+// 		var e = e || event;
+// 		if(e.keyCode == 13){
+// 			e.preventDefault();
+// 			return false;
+// 		}
+// 	});
+// });
+$(document).on("keydown", "form", function(e) {
+	var e = e || event;
+	if(e.keyCode == 13){
+		e.preventDefault();
+		return false;
+	}
+});
+
+// if($(".product_info3-section1 .make-text p").length!=0){
+// 	$(".product_info3-section1 .make-text p").each(function(){
+// 		var _this = $(this);
+// 		var html = _this.text();
+// 		// var reg=new RegExp(">", "g");
+// 		var html1 = html.replace(">", "<span style='color: red'>></span>");
+// 		_this.html(html1);
+// 	});
+// }
+
+
+function siteTable2(){
+  $(".product_info2 .basecont .c-main-wrap .f_info .f_tabel table").width($(".product_info2 .basecont .c-main-wrap .f_info .f_tabel table  thead tr").eq(1).find("th").length*183-80);
+}
+if($(".product_info2 .basecont .c-main-wrap .f_info .f_tabel table th").length!=0){
+	siteTable2()
+}
+$(".headbox-section3 img").each(function(){
+	var _this = $(this);
+	if(_this.attr("src")==""){
+		_this.parent().hide();
+	}
+});
+
+// $(".applicabox-section1 img").each(function(){
+	
+// 	var _this = $(this);
+// 	console.log(_this.attr("src"));
+// 	if(_this.attr("src")==""){
+// 		console.log(_this);
+// 		_this.parent().hide();
+// 	}
+// });
+
+
+window.onload=function(){
+	function scrollImgLoad(_this,url,setop){
+			_this.attr("src",url);
+		}
+		function scrollImgLoad2(_this,url,setop){
+			_this.css("background-image","url("+url+")");
+		}
+	$(".imgurl").each(function(){
+		var _this = $(this);
+		
+		if(_this.attr("src") == undefined){
+			var _thseTop = _this.offset().top-$(window).height();
+			var _dataurl = _this.data("url");
+			if($(window).scrollTop()>=_thseTop){
+				scrollImgLoad2(_this,_dataurl,_thseTop);
+			}
+			$(window).scroll(function(){
+				if($(window).scrollTop()>=_thseTop){
+					scrollImgLoad2(_this,_dataurl,_thseTop);
+				}
+			});
+			
+		}else{
+			if(_this.data("url") == "" || _this.data("url") != undefined){
+				var _thseTop = _this.offset().top-$(window).height();
+				var _dataurl = _this.data("url");
+				if($(window).scrollTop()>=_thseTop){
+					scrollImgLoad(_this,_dataurl,_thseTop);
+				}
+				$(window).scroll(function(){
+					if($(window).scrollTop()>=_thseTop){
+						scrollImgLoad(_this,_dataurl,_thseTop);
+					}
+				});
+			}
+		}
+	});
+}
+// function bannerVideo(_index){
+// 	$(".bannerbox .swiper-slide").find(".video video")
+// }
+
+// $(".aboutbanner .swiper-slide video").css("display","none");
+// $(".aboutbanner .swiper-slide .img").css("display","block");
+if($(".aboutbanner .swiper-slide video").attr("src")!="" && $(".aboutbanner .swiper-slide video").length!=0){
+	$(".aboutbanner .swiper-slide .video").css("display","block");
+	$(".aboutbanner .swiper-slide video").trigger('play');
+	$(".aboutbanner .swiper-slide .img").css("display","none");
+}

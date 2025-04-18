@@ -1,0 +1,187 @@
+'use strict';
+
+// 支持导航1
+function Cnav1(){
+  var oN = $(".c-nav1");
+  var oB = $(".c-nav1-wrap .c-text-box");
+  var oT = oB.find(".c-text");
+  oT.html($(".c-nav1>li.on>a").html());
+  oB.click(function(){
+    oN.stop().slideToggle();
+    oB.toggleClass("on");
+  });
+}
+Cnav1();
+
+// 支持导航2
+function Cnav2(){
+  
+}
+Cnav2();
+
+// 支持导航2定位
+function Cnav2Move(){
+	var swiper = new Swiper($(".c-nav2 .swiper-container"), {
+	  slidesPerView: 'auto',
+	  observer:true,
+	  watchOverflow: true,
+	  observeParents:true,
+	});
+	
+  var navWrap = $(".c-nav2-wrap");
+  var nav2 = $(".c-nav2");
+  var item = $(".c-nav2 .swiper-wrapper .swiper-slide");
+  var item2 = $("#c-common-move>li");
+  var item3 = nav2.find(".swiper-wrapper .swiper-slide");
+  var i = true;
+  var oT2 = null;
+  var nH2 = nav2.outerHeight();
+  var hH = $(".headbox_nav").outerHeight();
+  var rW = $("#c-common-box .c-right-box").outerWidth();
+  var nav1 = $(".c-nav1");
+  var oT1 = null;
+  var nH1 = nav1.outerHeight();
+  var lW = $("#c-common-box .c-left-box").outerWidth();
+  var mH = null;
+	nav2.css({"width":rW});
+	nav1.css({"width":lW});
+  if(nav2.length != 0){
+    oT2 = nav2.offset().top;
+  }
+  if(nav1.length != 0){
+    oT1 = nav1.offset().top;
+  }
+	
+  navWrap.css("height",nav2.outerHeight());
+  item.eq(0).addClass("on");
+  item.click(function(){
+		console.log($(this).index());
+    $('html,body').animate({scrollTop:item2.eq($(this).index()).offset().top-nH2-hH},500);
+  });
+	
+  function fn1(){
+      mH = $("#c-common-box .c-main-wrap").outerHeight();
+      if($(window).scrollTop()>oT2-hH && $(window).scrollTop()< oT2+mH-nH2-hH){
+        nav2.css({"position":"fixed","top":hH,"width":rW,"bottom":"auto"});
+      }else if($(window).scrollTop()<oT2+hH) {
+        nav2.css({"position":"relative","top":"0","bottom":"auto"});
+      }else if($(window).scrollTop()>oT2+mH-nH2-hH && $(window).scrollTop()< mH+oT2){
+        nav2.css({"position":"absolute","top":"auto","bottom":"0"});
+      }
+
+      if($(window).width()>991){
+        if($(window).scrollTop()>oT1-hH && $(window).scrollTop()< oT1+mH-nH1-hH){
+          nav1.css({"position":"fixed","top":hH,"width":lW,"bottom":"auto"});
+        }else if($(window).scrollTop()<oT1+hH) {
+          nav1.css({"position":"relative","top":"0","bottom":"auto"});
+        }else if($(window).scrollTop()>oT1+mH-nH1-hH && $(window).scrollTop()< mH+oT1){
+          nav1.css({"position":"absolute","top":"auto","bottom":"0"});
+        }
+      }
+
+    item2.each(function(){
+      if($(window).scrollTop()>=$(this).offset().top-nH2-hH-2 && $(window).scrollTop()<$(this).offset().top+$(this).outerHeight() ){
+        item3.removeClass("on");
+        item3.eq($(this).index()).addClass("on");
+				swiper.slideTo($(this).index());
+      }
+    });
+  }
+  fn1();
+  $(window).scroll(function(){
+      fn1();
+  });
+
+}
+
+// $(".aboutbanner .f_wode button").click(function(){
+//   setTimeout(function(){
+//     Cnav2Move();
+//   },300);
+// });
+/* 页面刷新节流 */
+// var jie = true;
+// window.onresize=function(){
+// 	if(jie){
+// 		jie=false;
+// 		window.location.reload();
+// 		setTimeout(function(){
+// 			jie=true;
+// 		},1000);
+		
+// 	}
+	
+// }
+// 下载
+// function Cdownload(){
+//   var item = $("#c-common-move.c-unique .c-item");
+//   item.each(function(){
+//     var tWrap = $(this).find(".c-table-wrap");
+//     var tWh = null;
+//     var i = true;
+//     var tWh2 = tWrap.outerHeight();
+//     if($(this).find("tr").length <= 3){
+//       $(this).find(".c-more").hide();
+//     }else{
+//       tWh = $(this).find("tbody tr").eq(0).outerHeight()+$(this).find("tbody tr").eq(1).outerHeight()+$(this).find("tbody tr").eq(2).outerHeight()+$(this).find("thead").outerHeight()-20;
+//       tWrap.height(tWh);
+//       $(this).find(".c-more-btn").click(function(){
+//         if(i){
+//           $(this).addClass("on");
+//           tWrap.stop().animate({"height":tWh2},500);
+//           i = false;
+//         }else{
+//           $(this).removeClass("on");
+//           tWrap.stop().animate({"height":tWh},500);
+//           i = true;
+//         }
+//       });
+//     }
+//   });
+// }
+
+// 常见问题
+// function Cfaq(){
+//   // var aLi = $("#c-faq li");
+//   $("#c-faq li").each(function(){
+//     var This = $(this);
+//     $(this).find(".c-title-box").click(function(){
+//       This.toggleClass("on");
+//       This.find(".c-text").stop().slideToggle();
+//     });
+//   });
+
+// }
+// Cfaq();
+	$(document).on("click",'#c-faq li',function(){
+		var This = $(this);
+		This.toggleClass("on");
+		This.find(".c-text").stop().slideToggle();
+	});
+
+
+// 案例轮播
+function Cbaner1(){
+  var swiper = new Swiper('.c-banner1', {
+    loop:true,
+    autoplay: {
+      disableOnInteraction: false,
+    },
+  });
+}
+Cbaner1();
+
+// 页面加载调用
+$(window).ready(function(){
+  // 支持导航2定位
+  setTimeout(function(){
+    Cnav2Move();
+  },400);
+});
+
+function siteTable(){
+	var gun = $("#c-selection .c-bottom-box table").width()-$("#c-selection .c-bottom-box table tbody tr").eq(0).width();
+  $("#c-selection .c-bottom-box table").width( ($("#c-selection .c-bottom-box table tbody tr").eq(0).find("td").length-2)*191+45+1500);
+	$("#c-selection .c-bottom-box table thead tr").css("margin-right",gun+"px");
+}
+siteTable();
